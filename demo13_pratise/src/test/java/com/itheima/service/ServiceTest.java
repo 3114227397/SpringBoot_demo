@@ -13,7 +13,7 @@ public class ServiceTest {
 
     @Test
     void check(){
-        System.out.println(b.getByUsername("zs"));
+//        System.out.println(b.getByUsername("zs"));
     }
 
 }
