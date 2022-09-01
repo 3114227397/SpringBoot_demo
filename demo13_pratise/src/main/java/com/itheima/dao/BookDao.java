@@ -16,7 +16,7 @@ public interface BookDao{
     @Select("select * from people where token =#{token}")
     public people getByToken(String token);
 //    @Select("select * from people limit #{cur},#{size}")
-//    public List<people> getPage(int cur, int size);
+//    public List<people> getPage(int cur, int size);xx
     @Insert("insert into people(account,password) values(#{account},#{password}) ")
     public Boolean insert_people(String account,String password);
 

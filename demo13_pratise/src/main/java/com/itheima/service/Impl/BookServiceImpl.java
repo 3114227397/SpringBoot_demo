@@ -54,7 +54,7 @@ public class BookServiceImpl implements BookService{
 //    @Override
 //    public Boolean getByUsername(String username) {
 //        return b.equals(username);
-//    }
+//    }xx
 //public IPage getPage(int cur, int size) {
 //    IPage page=new Page(cur,size);
 //    IPage p = b.selectPage(page, null);

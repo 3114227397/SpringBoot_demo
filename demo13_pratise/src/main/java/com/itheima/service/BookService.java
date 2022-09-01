@@ -2,7 +2,7 @@ package com.itheima.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.itheima.domain.book;
+//import com.itheima.domain.book;xx
 import com.itheima.domain.people;
 
 import java.util.List;
