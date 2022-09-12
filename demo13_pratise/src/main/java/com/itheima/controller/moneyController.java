@@ -47,17 +47,23 @@ public class moneyController {
     }
 
 
+//    @PostMapping
+////    增加RequestBody
+//    public R add(@RequestParam("account") String account,@RequestParam("password") String password){
+//        return new R(b.add(account,password));
+//    }
+//    增加RequestBody接受JSON数据
     @PostMapping
-//    增加
-    public R add(@RequestParam("account") String account,@RequestParam("password") String password){
-        return new R(b.add(account,password));
-    }
+    public R add(@RequestBody people p){
+    return new R(b.add(p.getAccount(),p.getPassword()));
+}
+
 //    删除
     @DeleteMapping("/{account}")
     public R deleteByAccount(@PathVariable String account){
         return new R(b.delete(account));
     }
-//    改
+//    改密码，根据RequestParam设置参数
     @PutMapping
     public R updateByAccount(@RequestParam String account,@RequestParam String password){
         return new R(b.update(account,password));
@@ -70,13 +76,32 @@ public class moneyController {
     }
 
 //    登录
-    @PostMapping("/login")
-    public R login(@RequestParam String account,@RequestParam String password){
-        if(b.check(account)!=null){//查到有账号
-            people pp = b.check(account);
-            if(pp.getPassword().equals(password)){//密码正确
-                if(account.equals("admin"))return new R(true,"您好，boss","20000");
-                String []ss=account.split("_");
+//    @PostMapping("/login")
+//    public R login(@RequestParam String account,@RequestParam String password){
+//        if(b.check(account)!=null){//查到有账号
+//            people pp = b.check(account);
+//            if(pp.getPassword().equals(password)){//密码正确
+//                if(account.equals("admin"))return new R(true,"您好，boss","20000");
+//                String []ss=account.split("_");
+//                if(ss[0].equals("worker")){
+//                    return new R(true,"您好，员工"+ss[1]+"号","1000");
+//                }
+//                return new R(true,"你是贷款用户","200");
+//            }else{
+//                return new R(false,"密码错误","xxx");
+//            }
+//
+//        }
+//        return new R(false,"账号未注册");
+//    }
+
+    @PostMapping("/logins")
+    public R logins(@RequestBody people p){
+        if(b.check(p.getAccount())!=null){//查到有账号
+            people pp = b.check(p.getAccount());
+            if(pp.getPassword().equals(p.getPassword())){//密码正确
+                if(p.getAccount().equals("admin"))return new R(true,"您好，boss","20000");
+                String []ss=p.getAccount().split("_");
                 if(ss[0].equals("worker")){
                     return new R(true,"您好，员工"+ss[1]+"号","1000");
                 }
@@ -89,11 +114,12 @@ public class moneyController {
         return new R(false,"账号未注册");
     }
 
+
 //    登出
 @PostMapping("/logout")
 public R logout(@RequestParam("msg") String msg){
         if(msg.equals("bye"))return new R("603","成功退出账号");
-        return new R(false,"退出失败");
+        return new R(false, "退出失败");
 }
 
 
@@ -130,8 +156,8 @@ public R logout(@RequestParam("msg") String msg){
 //    申请管理 -编辑  ok
 
     @PutMapping("/update")
-    public R edit(@RequestParam Integer id,@RequestParam String name,@RequestParam String msg){//这里假设传过来Params
-        return new R(pd.modifyById(id,name,msg),"修改成功","20000");//返回true和状态码
+    public R edit(@RequestBody person p){//这里假设传过来Params
+        return new R(pd.modifyById(p.getId(),p.getName(),p.getMsg()),"修改成功","20000");//返回true和状态码
     }
 
 
@@ -174,7 +200,7 @@ public R logout(@RequestParam("msg") String msg){
 }
 //    权限管理 -创建管理员worker
 //    创建员工
-    @PostMapping("/createUser")
+    @PostMapping("/createWorker")
 public R createWorker(@RequestBody worker worker){
         return new R(wd.insert(worker)>0,"加入成功","200");
 }
@@ -184,10 +210,11 @@ public R getAllWorker(){
 }
 
 //    删除员工
-    @DeleteMapping("/deleteUser")
+    @DeleteMapping("/deleteWorker")
     public R deleteWorkerById(@PathVariable Integer id){
         return new R(wd.deleteById(id)>0,"删除成功","200");
     }
+
 
 //    展示列表
 
